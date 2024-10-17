@@ -1132,6 +1132,46 @@ class PlayerPage:
 
         return None
 
+class SalariesPage:
+    def __init__(self, html):
+        self.html = html
+
+    @property
+    def salaries_table_query(self):
+        return '//table[@id="contracts"]'
+
+    @property
+    def salaries_table(self):
+        table = self.html.xpath(self.salaries_table_query)
+
+        if len(table) != 1:
+            return None
+
+        return SalariesTable(html=matching_tables[0])
+
+
+class SalariesTable:
+    def __init__(self, html):
+        self.html = html
+
+    @property
+    def rows(self):
+        return [
+            SalariesRow(html=row_html)
+            for row_html in self.html.xpath('.//tbody/tr')
+        ]
+
+class SalariesRow:
+    def __init__(self, html):
+        self.html = html
+
+    @property
+    def playername_cell(self):
+        return self.html[0]
+
+
+
+
 
 class StandingsPage:
     def __init__(self, html):
