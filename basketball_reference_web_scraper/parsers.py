@@ -311,7 +311,14 @@ class PlayerSalariesParser:
         print('waaassuh')
         return [ 
             {
-                "player_age": str_to_int(value=salary.playerage, default=None)
+                "player_name": salary.playername,
+                "player_age": str_to_int(value=salary.playerage, default=None),
+                "salary_1": salary.salary1,
+                "salary_2": salary.salary2,
+                "salary_3": salary.salary3,
+                "salary_4": salary.salary4,
+                "salary_5": salary.salary5,
+                "salary_guaranteed": salary.salaryguaranteed
             }
 
             for salary in salaries

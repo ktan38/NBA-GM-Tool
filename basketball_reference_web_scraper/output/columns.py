@@ -139,5 +139,13 @@ STANDINGS_COLUMNS_NAMES = [
 
 
 SALARIES_COLUMN_NAMES = [
+    "player_name",
     "player_age",
+    "salary_1",
+    "salary_2",
+    "salary_3",
+    "salary_4",
+    "salary_5",
+    "salary_guaranteed"
+
 ]
