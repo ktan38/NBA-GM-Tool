@@ -143,9 +143,9 @@ class HTTPService:
 
 
     def player_salaries(self, team):
-        url = '{BASE_URL}/contracts/{team}.html'.format(
+        url = '{BASE_URL}/contracts/{team_abbr}.html'.format(
             BASE_URL=HTTPService.BASE_URL,
-            team=team,
+            team_abbr=TEAM_TO_TEAM_ABBREVIATION[team]
         )
 
         response = requests.get(url=url)
