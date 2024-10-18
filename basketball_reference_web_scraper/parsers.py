@@ -288,6 +288,7 @@ class ScheduledGamesParser:
         self.team_name_parser = team_name_parser
 
     def parse_games(self, games):
+
         return [
             {
                 "start_time": self.start_time_parser.parse_start_time(
@@ -301,6 +302,23 @@ class ScheduledGamesParser:
             }
             for game in games
         ]
+
+
+class PlayerSalariesParser:
+    def parse(self, salaries):
+        print(salaries[0].playerage)
+
+        print('waaassuh')
+        return [ 
+            {
+                "player_age": str_to_int(value=salary.playerage, default=None)
+            }
+
+            for salary in salaries
+        ]
+
+
+
 
 
 class PlayerAdvancedSeasonTotalsParser:
@@ -627,3 +645,6 @@ class ConferenceDivisionStandingsParser:
                     "conference": self.divisions_to_conferences.get(current_division),
                 })
         return results
+
+
+

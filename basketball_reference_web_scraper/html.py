@@ -1147,7 +1147,7 @@ class SalariesPage:
         if len(table) != 1:
             return None
 
-        return SalariesTable(html=matching_tables[0])
+        return SalariesTable(html=table[0])
 
 
 class SalariesTable:
@@ -1165,11 +1165,80 @@ class SalariesRow:
     def __init__(self, html):
         self.html = html
 
+
+
     @property
-    def playername_cell(self):
-        return self.html[0]
+    def playername(self):
+        cells = self.html.xpath('th[@data-stat="player"]')
 
+        if len(cells) > 0:
+            return cells[0].text_content()
 
+        return ''
+
+    @property
+    def playerage(self):
+        cells = self.html.xpath('td[@data-stat="age_today"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
+
+    @property
+    def salary1(self):
+        cells = self.html.xpath('td[@data-stat="y1"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
+
+    @property
+    def salary2(self):
+        cells = self.html.xpath('td[@data-stat="y2"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
+
+    @property
+    def salary3(self):
+        cells = self.html.xpath('td[@data-stat="y3"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
+
+    @property
+    def salary4(self):
+        cells = self.html.xpath('td[@data-stat="y4"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
+
+    @property
+    def salary5(self):
+        cells = self.html.xpath('td[@data-stat="y5"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
+
+    @property
+    def salaryguaranteed(self):
+        cells = self.html.xpath('td[@data-stat="remain_gtd"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
+    
 
 
 

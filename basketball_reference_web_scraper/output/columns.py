@@ -136,3 +136,8 @@ STANDINGS_COLUMNS_NAMES = [
     "division",
     "conference",
 ]
+
+
+SALARIES_COLUMN_NAMES = [
+    "player_age",
+]

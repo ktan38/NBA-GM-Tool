@@ -5,7 +5,7 @@ from basketball_reference_web_scraper.http_service import HTTPService
 from basketball_reference_web_scraper.output.columns import BOX_SCORE_COLUMN_NAMES, SCHEDULE_COLUMN_NAMES, \
     PLAYER_SEASON_TOTALS_COLUMN_NAMES, \
     PLAYER_ADVANCED_SEASON_TOTALS_COLUMN_NAMES, TEAM_BOX_SCORES_COLUMN_NAMES, PLAY_BY_PLAY_COLUMN_NAMES, \
-    PLAYER_SEASON_BOX_SCORE_COLUMN_NAMES, SEARCH_RESULTS_COLUMN_NAMES, STANDINGS_COLUMNS_NAMES
+    PLAYER_SEASON_BOX_SCORE_COLUMN_NAMES, SEARCH_RESULTS_COLUMN_NAMES, STANDINGS_COLUMNS_NAMES, SALARIES_COLUMN_NAMES
 from basketball_reference_web_scraper.output.fields import format_value, BasketballReferenceJSONEncoder
 from basketball_reference_web_scraper.output.service import OutputService
 from basketball_reference_web_scraper.output.writers import CSVWriter, JSONWriter, FileOptions, OutputOptions, \
@@ -248,5 +248,23 @@ def search(term, output_type=None, output_file_path=None, output_write_option=No
     output_service = OutputService(
         json_writer=JSONWriter(value_formatter=BasketballReferenceJSONEncoder),
         csv_writer=SearchCSVWriter(value_formatter=format_value)
+    )
+    return output_service.output(data=values, options=options)
+
+
+
+def get_salaries(team, output_type=None, output_file_path=None, output_write_option=None, json_options=None):
+    http_service = HTTPService(parser=ParserService())
+    values = http_service.player_salaries(team=team)
+
+    options = OutputOptions.of(
+        file_options=FileOptions.of(path=output_file_path, mode=output_write_option),
+        output_type=output_type,
+        json_options=json_options,
+        csv_options={"column_names": SALARIES_COLUMN_NAMES}
+    )
+    output_service = OutputService(
+        json_writer=JSONWriter(value_formatter=BasketballReferenceJSONEncoder),
+        csv_writer=CSVWriter(value_formatter=format_value)
     )
     return output_service.output(data=values, options=options)
