@@ -1136,6 +1136,8 @@ class SalariesPage:
     def __init__(self, html):
         self.html = html
 
+    
+
     @property
     def salaries_table_query(self):
         return '//table[@id="contracts"]'
@@ -1160,6 +1162,15 @@ class SalariesTable:
             SalariesRow(html=row_html)
             for row_html in self.html.xpath('.//tbody/tr')
         ]
+    
+    @property
+    def currentpayroll(self):
+        foot = self.html.xpath('.//tfoot/tr/td[@data-stat="y1"]')
+
+        if len(foot) > 0:
+            return foot[0].text_content()
+
+        return ''
 
 class SalariesRow:
     def __init__(self, html):
