@@ -1165,8 +1165,6 @@ class SalariesRow:
     def __init__(self, html):
         self.html = html
 
-
-
     @property
     def playername(self):
         cells = self.html.xpath('th[@data-stat="player"]')
@@ -1239,8 +1237,6 @@ class SalariesRow:
 
         return ''
     
-
-
 
 class StandingsPage:
     def __init__(self, html):
@@ -1413,3 +1409,98 @@ class PlayerContractsRow:
             return salary, class_names
 
         return None
+
+class TeamContractsPage:
+    def __init__(self, html):
+        self.html = html
+
+    @property
+    def team_contract_table_query(self):
+        return '//table[@id="team_summary"]'
+    
+    @property
+    def teams_contract_table(self):
+        table = self.html.xpath(self.team_contract_table_query)
+
+        if len(table) != 1:
+            return None
+
+        return TeamContractsTable(html=table[0])
+
+class TeamContractsTable:
+    def __init__(self, html):
+        self.html = html
+
+    @property
+    def rows(self):
+        return [
+            TeamContractsRow(html=row_html)
+            for row_html in self.html.xpath('.//tbody/tr')
+        ]
+    
+class TeamContractsRow:
+    def __init__(self, html):
+        self.html = html
+
+    @property
+    def teamname(self):
+        cells = self.html.xpath('td[@data-stat="team_name"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
+
+    @property
+    def year1(self):
+        cells = self.html.xpath('td[@data-stat="y1"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
+
+    @property
+    def year2(self):
+        cells = self.html.xpath('td[@data-stat="y2"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
+
+    @property
+    def year3(self):
+        cells = self.html.xpath('td[@data-stat="y3"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
+
+    @property
+    def year4(self):
+        cells = self.html.xpath('td[@data-stat="y4"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
+
+    @property
+    def year5(self):
+        cells = self.html.xpath('td[@data-stat="y5"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
+    
+    @property
+    def year6(self):
+        cells = self.html.xpath('td[@data-stat="y6"]')
+
+        if len(cells) > 0:
+            return cells[0].text_content()
+
+        return ''
