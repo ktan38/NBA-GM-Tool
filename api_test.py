@@ -7,7 +7,7 @@ from lxml import html
 
 
 
-
+print(Team.NEW_YORK_KNICKS)
 
 client.get_salaries(
     team=Team.NEW_YORK_KNICKS, 

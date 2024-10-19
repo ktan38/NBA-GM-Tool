@@ -1,6 +1,28 @@
 from enum import Enum
 
 
+class SalaryThresholds(Enum):
+    SALARY_CAP = 141_000_000
+    LUXURY_TAX = 171_315_000
+    FIRST_APRON = 178_655_000
+    SECOND_APRON = 189_485_000
+
+
+class TradeExceptions(Enum):
+    NON_TAXPAYER_MLE = 12_400_000  # Non-Taxpayer Mid-Level Exception
+    TAXPAYER_MLE = 5_000_000  # Taxpayer Mid-Level Exception
+    BAE = 4_000_000  # Bi-Annual Exception
+    ROOM_EXCEPTION = 7_700_000  # Room Exception
+    MINIMUM_SALARY = 1_000_000  # Approx. value, varies by player experience
+
+class TeamStatus(Enum):
+    UNDER_THE_CAP = "Under the Cap"
+    OVER_THE_CAP_UNDER_LUXURY_TAX = "Over the Cap, Under Luxury Tax Line"
+    LUXURY_TAX_PAYER = "Luxury Tax Payer, Under First Apron"
+    OVER_FIRST_APRON = "Over First Apron, Under Second Apron"
+    OVER_SECOND_APRON = "Over Second Apron"
+
+
 class Location(Enum):
     HOME = "HOME"
     AWAY = "AWAY"
