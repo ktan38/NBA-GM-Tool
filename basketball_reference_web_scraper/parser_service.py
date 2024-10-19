@@ -6,7 +6,7 @@ from basketball_reference_web_scraper.parsers import PositionAbbreviationParser,
     PeriodTimestampParser, ScoresParser, PlayByPlaysParser, TeamNameParser, ScheduledStartTimeParser, \
     ScheduledGamesParser, PlayerBoxScoreOutcomeParser, PlayerSeasonBoxScoresParser, SearchResultNameParser, \
     ResourceLocationParser, SearchResultsParser, LeagueAbbreviationParser, PlayerDataParser, DivisionNameParser, \
-    TeamStandingsParser, ConferenceDivisionStandingsParser, PlayerSalariesParser
+    TeamStandingsParser, ConferenceDivisionStandingsParser, PlayerSalariesParser, TeamContractsParser
 
 
 class ParserService:
@@ -87,8 +87,8 @@ class ParserService:
 
         self.player_salaries_parser = PlayerSalariesParser()
 
-
-
+        self.team_contracts_parser = TeamContractsParser()
+    
     def parse_division_standings(self, standings):
         return self.conference_division_standings_parser.parse(division_standings=standings)
 
@@ -125,3 +125,6 @@ class ParserService:
 
     def parse_player_salaries(self, salaries):
         return self.player_salaries_parser.parse(salaries)
+    
+    def parse_team_contracts(self, contracts):
+        return self.team_contracts_parser.parse(contracts)

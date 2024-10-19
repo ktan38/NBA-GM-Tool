@@ -323,8 +323,24 @@ class PlayerSalariesParser:
         ]
 
 
+class TeamContractsParser:
+    def parse(self, contracts):
+        if contracts:
+            print(contracts[0].teamname)
+        print('testies')
 
-
+        return [
+            {
+                "team_name": contract.teamname,
+                "year_1": contract.year1,
+                "year_2": contract.year2,
+                "year_3": contract.year3,
+                "year_4": contract.year4,
+                "year_5": contract.year5,
+                "year_6": contract.year6
+            }
+            for contract in contracts  
+        ]
 
 class PlayerAdvancedSeasonTotalsParser:
     def __init__(self, position_abbreviation_parser, team_abbreviation_parser):

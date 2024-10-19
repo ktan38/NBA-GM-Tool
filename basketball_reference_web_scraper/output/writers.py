@@ -121,7 +121,6 @@ class CSVWriter(Writer):
                 fieldnames=options.formatting_options.get("column_names"),
             )
             writer.writeheader()
-
             writer.writerows(self.rows(data=data))
 
 

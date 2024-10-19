@@ -147,5 +147,14 @@ SALARIES_COLUMN_NAMES = [
     "salary_4",
     "salary_5",
     "salary_guaranteed"
+]
 
+CONTRACTS_COLUMN_NAMES = [
+    "team_name",
+    "year_1",
+    "year_2",
+    "year_3",
+    "year_4",
+    "year_5",
+    "year_6"
 ]
