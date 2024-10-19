@@ -1,5 +1,5 @@
 from enum import Enum
-from . import PlayerManager
+from . import PlayerManager, DraftPick
 import requests
 from basketball_reference_web_scraper.data import SalaryThresholds, TeamStatus
 
@@ -15,6 +15,71 @@ class Team:
         self.cap_status = cap_status  # Current cap status (using TeamStatus Enum)
         self.available_exceptions = available_exceptions if available_exceptions else {}  # Exceptions team has
         self.player_manager = player_manager  # Reference to player manager to handle player creation and updates
+        self.draft_picks = self._initialize_draft_picks()  # Tracker for draft picks
+
+
+
+    def _initialize_draft_picks(self):
+        """
+        Initializes draft picks for the team. Each team starts with its own round 1 and round 2 picks for future years.
+        :return: Dictionary of draft picks, organized by year and round
+        """
+        draft_picks = {}
+        for year in range(2024, 2030):  # Assuming we're tracking picks for 2024 to 2030
+            draft_picks[year] = {
+                1: DraftPick(year, 1, self.name),  # Round 1 pick
+                2: DraftPick(year, 2, self.name)   # Round 2 pick
+            }
+        return draft_picks
+
+    def add_traded_pick(self, year, round, from_team, protections=None):
+        """
+        Adds a traded draft pick to the team's draft pick tracker.
+        :param year: Year of the draft
+        :param round: Round of the pick (1 or 2)
+        :param from_team: The team that originally owned the pick
+        :param protections: Any protections attached to the pick (e.g., top-10 protected)
+        """
+        new_pick = DraftPick(year, round, current_team=self.name, origin_team=from_team, protections=protections)
+        self.draft_picks[year][round] = new_pick
+        print(f"Added traded {year} Round {round} pick from {from_team} with protections: {protections}")
+
+    def trade_draft_pick(self, year, round, to_team, protections=None):
+        """
+        Trades the team's draft pick to another team and updates its protections if any.
+        :param year: Year of the draft pick being traded
+        :param round: Round of the draft pick being traded (1 or 2)
+        :param to_team: The team receiving the draft pick
+        :param protections: Protections on the pick (if any)
+        """
+        if year in self.draft_picks and round in self.draft_picks[year]:
+            draft_pick = self.draft_picks[year][round]
+            draft_pick.set_current_team(to_team)  # Update the current team using the setter
+            if protections:
+                draft_pick.set_protections(protections)  # Update protections if provided
+            print(f"Traded {year} Round {round} pick to {to_team}. New protections: {protections}")
+        else:
+            print(f"Draft pick for {year} Round {round} not found.")
+
+    def get_draft_picks(self):
+        """
+        Returns a list of all draft picks the team owns.
+        """
+        picks = []
+        for year, rounds in self.draft_picks.items():
+            for round, pick in rounds.items():
+                picks.append(pick)
+        return picks
+
+    def print_draft_picks(self):
+        """
+        Prints all the draft picks the team owns.
+        """
+        print(f"Draft Picks for {self.name}:")
+        for pick in self.get_draft_picks():
+            print(f"- {pick}")
+
+
 
     def fetch_roster_from_api(self):
         """
@@ -118,6 +183,8 @@ class Team:
             print(f"- {exception}: ${value:,}")
         print("\nRoster:")
         self.print_roster()
+        print("\nDraft Picks:")
+        self.print_draft_picks()
 
 # Example usage
 if __name__ == "__main__":
