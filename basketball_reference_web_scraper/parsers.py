@@ -306,9 +306,7 @@ class ScheduledGamesParser:
 
 class PlayerSalariesParser:
     def parse(self, salaries):
-        print(salaries[0].playerage)
 
-        print('waaassuh')
         return [ 
             {
                 "player_name": salary.playername,
