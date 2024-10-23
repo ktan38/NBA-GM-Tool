@@ -1515,3 +1515,89 @@ class TeamContractsRow:
             return cells[0].text_content()
 
         return ''
+
+class PlayerTotalContractsPage:
+    def __init__(self, html):
+        self.html = html
+
+    @property
+    def player_total_contract_table_query(self):
+        return '//table[@id="player-contracts"]'
+
+    @property
+    def player_total_contract_table(self):
+        table = self.html.xpath(self.player_total_contract_table_query)
+
+        if len(table) != 1:
+            return None
+
+        return PlayerTotalContractsTable(html=table[0])
+
+class PlayerTotalContractsTable:
+    def __init__(self, html):
+        self.html = html
+
+    @property
+    def rows(self):
+        return [
+            PlayerTotalContractsRow(html=row_html)
+            for row_html in self.html.xpath('.//tbody/tr')
+        ]
+
+class PlayerTotalContractsRow:
+    def __init__(self, html):
+        self.html = html
+
+    @property
+    def playername(self):
+        cells = self.html.xpath('td[@data-stat="player"]')
+        if len(cells) > 0:
+            return cells[0].text_content().strip()
+        return ''
+
+    @property
+    def year1(self):
+        return self.get_salary_with_option("y1")
+
+    @property
+    def year2(self):
+        return self.get_salary_with_option("y2")
+
+    @property
+    def year3(self):
+        return self.get_salary_with_option("y3")
+
+    @property
+    def year4(self):
+        return self.get_salary_with_option("y4")
+
+    @property
+    def year5(self):
+        return self.get_salary_with_option("y5")
+
+    @property
+    def year6(self):
+        return self.get_salary_with_option("y6")
+
+    @property
+    def salaryguaranteed(self):
+        cells = self.html.xpath('td[@data-stat="remain_gtd"]')
+        if len(cells) > 0:
+            return cells[0].text_content().strip()
+        return ''
+    
+    @property
+    def player_option(self):
+        return self.extract_option("salary-pl")
+
+    def get_salary_with_option(self, year_stat):
+        cells = self.html.xpath(f'td[@data-stat="{year_stat}"]')
+        if len(cells) > 0:
+            cell_class = cells[0].get('class', '')
+            salary = cells[0].text_content().strip()
+
+            player_option = 'salary-pl' in cell_class
+            team_option = 'salary-tm' in cell_class
+
+            return salary, player_option, team_option
+        return '', False, False

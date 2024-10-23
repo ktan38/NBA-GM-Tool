@@ -321,8 +321,7 @@ class PlayerSalariesParser:
 
             for salary in salaries
         ]
-
-
+    
 class TeamContractsParser:
     def parse(self, contracts):
         if contracts:
@@ -341,6 +340,41 @@ class TeamContractsParser:
             }
             for contract in contracts  
         ]
+
+class TotalPlayerContractsParser:
+    def __init__(self, contract_rows):
+        self.contract_rows = contract_rows
+    
+    def parse(self):
+        data = []
+        for row in self.contract_rows:
+            years = ["year1", "year2", "year3", "year4", "year5", "year6"]
+            for year_stat in years:
+                salary, player_option, team_option = getattr(row, year_stat)
+                if salary:
+                    data.append({
+                        "player_name": row.playername,
+                        "year": year_stat.replace("year", ""),
+                        "salary": salary,
+                        "player_option": player_option or "FALSE",  
+                        "team_option": team_option or "FALSE",      
+                        "guaranteed_salary": row.salaryguaranteed
+                    })
+        return data
+
+    def extract_years_and_salaries(self, row):
+        years_salaries = []
+        for year_key, year_value in {
+            "Year 1": row.year1,
+            "Year 2": row.year2,
+            "Year 3": row.year3,
+            "Year 4": row.year4,
+            "Year 5": row.year5,
+            "Year 6": row.year6
+        }.items():
+            if year_value:  
+                years_salaries.append((year_key, year_value.strip()))  
+        return years_salaries
 
 class PlayerAdvancedSeasonTotalsParser:
     def __init__(self, position_abbreviation_parser, team_abbreviation_parser):
@@ -666,6 +700,5 @@ class ConferenceDivisionStandingsParser:
                     "conference": self.divisions_to_conferences.get(current_division),
                 })
         return results
-
 
 

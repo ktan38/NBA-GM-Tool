@@ -158,3 +158,17 @@ CONTRACTS_COLUMN_NAMES = [
     "year_5",
     "year_6"
 ]
+
+PLAYER_TOTAL_CONTRACT_COLUMN_NAMES = [
+    "player_name",
+    "year",
+    "salary",
+    "player_option",
+    "team_option",
+    "guaranteed_salary",
+    #"signing_method",
+    #"qualifying_offer",
+    #"non_guaranteed",
+    #"partially_guaranteed"
+    #"contract_notes"
+]
