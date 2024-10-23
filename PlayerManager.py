@@ -1,6 +1,5 @@
 from . import Player
 
-
 class PlayerManager:
     def __init__(self, player_pool):
         """
@@ -22,33 +21,61 @@ class PlayerManager:
         :return: Player object
         """
         # Check if the player already exists
-        if name in self.player_pool:
-            print(f"Player {name} already exists in the player pool.")
-            return self.player_pool[name]
+        if id in self.player_pool:
+            print(f"Player {self.player_pool[id].name} ({id}) already exists in the player pool.")
+            return self.player_pool[id]
         
         # Create a new player and add to the pool
-        player = Player(name, salary, contract_years, position, team=team, tradeable=tradeable, injury_status=injury_status)
-        self.player_pool[name] = player
-        print(f"Created new player: {name}")
+        player = Player(id, name, salary, contract_years, position, team=team, tradeable=tradeable, injury_status=injury_status)
+        self.player_pool[id] = player
+        print(f"Created new player: {name} (id = {id})")
         return player
 
-    def update_player(self, name, **kwargs):
+    def update_player(self, id, **kwargs):
         """
-        Updates an existing player's attributes in the global player pool.
+        Updates an existing player's attributes and contract in the global player pool.
         Only the attributes passed in via kwargs will be updated.
         :param name: Name of the player
-        :param kwargs: Attributes to update (e.g., salary, contract_years, injury_status, etc.)
+        :param kwargs: Attributes to update (e.g., salary, contract_years, injury_status, contract, etc.)
         :return: Updated player object, or None if player does not exist
         """
-        # Check if the player exists in the pool
-        if name not in self.player_pool:
-            print(f"Player {name} does not exist in the player pool.")
+        if id not in self.player_pool:
+            print(f"Player {id} does not exist in the player pool.")
             return None
 
-        # Get the existing player
-        player = self.player_pool[name]
-        
-        # Update the player's attributes using kwargs
+        player = self.player_pool[id]
         player.update(**kwargs)
-        print(f"Updated player: {name}")
+        print(f"Updated player: {id}")
         return player
+
+    def update_all_players(self, **kwargs):
+        """
+        Globally updates certain attributes for all players in the global player pool.
+        Only the attributes passed in via kwargs will be updated for every player.
+        :param kwargs: Attributes to update (e.g., salary, contract_years, injury_status, contract, etc.)
+        """
+        for player in self.player_pool.values():
+            player.update(**kwargs)
+            print(f"Updated player: {player.name} (id = {player.id})")
+
+    def remove_player(self, id):
+        """
+        Removes a player from the global player pool.
+        :param name: Name of the player to remove
+        :return: True if removed, False if the player was not found
+        """
+        if id in self.player_pool:
+            del self.player_pool[id]
+            print(f"Player {id} has been removed from the player pool.")
+            return True
+        else:
+            print(f"Player {id} does not exist in the player pool.")
+            return False
+
+    def get_player(self, id):
+        """
+        Retrieves a player from the global player pool without modifying them.
+        :param name: Name of the player to retrieve
+        :return: Player object, or None if the player does not exist
+        """
+        return self.player_pool.get(id, None)

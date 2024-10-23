@@ -1,7 +1,8 @@
 from . import PlayerContract
 
 class Player:
-    def __init__(self, name, position, team=None, tradeable=True, injury_status=None, contract=None):
+    def __init__(self, id,name, position, team=None, tradeable=True, injury_status=None, contract=None):
+        self.id = id
         self.name = name
         self.position = position
         self.team = team
@@ -23,7 +24,7 @@ class Player:
         :param new_contract: An instance of PlayerContract representing the new contract.
         """
         self.contract = new_contract
-        print(f"{self.name} has signed a new contract: {self.contract}")
+        print(f"{self.name} (id = {self.id}) has signed a new contract: {self.contract}")
 
     def check_contract_date(self, db_contract):
         """
@@ -52,33 +53,3 @@ class Player:
         return (f"{self.name} (Position: {self.position}, Team: {self.team}, "
                 f"Tradeable: {self.tradeable}, Injury Status: {self.injury_status}, {contract_details})")
 
-# Example Usage:
-
-# Create an old contract for a player
-old_contract = PlayerContract(
-    duration=3,
-    salary_per_year=[41_000_000, 42_000_000, 43_000_000],
-    team_options={2: True},
-    player_options={3: True},
-    incentives={"MVP Bonus": 1_000_000}
-)
-
-# Create a player with the old contract
-lebron = Player(name="LeBron James", position="SF", team="Los Angeles Lakers", contract=old_contract)
-
-# Print the player's details before the new contract
-print(lebron)
-
-# Create a new contract for the player
-new_contract = PlayerContract(
-    duration=4,
-    salary_per_year=[45_000_000, 46_000_000, 47_000_000, 48_000_000],
-    team_options={4: True},
-    incentives={"Championship Bonus": 2_000_000}
-)
-
-# The player signs the new contract
-lebron.sign_new_contract(new_contract)
-
-# Print the player's details after signing the new contract
-print(lebron)
