@@ -5,7 +5,7 @@ from basketball_reference_web_scraper.data import TEAM_TO_TEAM_ABBREVIATION, Tea
 from basketball_reference_web_scraper.errors import InvalidDate, InvalidPlayerAndSeason
 from basketball_reference_web_scraper.html import DailyLeadersPage, PlayerSeasonBoxScoresPage, PlayerSeasonTotalTable, \
     PlayerAdvancedSeasonTotalsTable, PlayByPlayPage, SchedulePage, BoxScoresPage, DailyBoxScoresPage, SearchPage, \
-    PlayerPage, StandingsPage, SalariesPage, TeamContractsPage
+    PlayerPage, StandingsPage, SalariesPage, TeamContractsPage, PlayerTotalContractsPage
 
 
 class HTTPService:
@@ -169,6 +169,17 @@ class HTTPService:
         if page.teams_contract_table:
             return self.parser.parse_team_contracts(contracts=page.teams_contract_table.rows)
 
+    def total_player_contracts(self):
+        url = '{BASE_URL}/contracts/players.html'.format(BASE_URL=HTTPService.BASE_URL
+        )
+        response = requests.get(url=url)
+        response.raise_for_status()
+
+        page = PlayerTotalContractsPage(html=html.fromstring(response.content))
+
+        return self.parser.parse_total_player_contracts(page.player_total_contract_table.rows)
+
+
 
     def season_schedule(self, season_end_year):
         url = '{BASE_URL}/leagues/NBA_{season_end_year}_games.html'.format(
@@ -269,3 +280,4 @@ class HTTPService:
         return {
             "players": player_results
         }
+
