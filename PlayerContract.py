@@ -1,7 +1,7 @@
 from datetime import date
 
 class PlayerContract:
-    def __init__(self, duration, salary_per_year, team_options=None, player_options=None, incentives=None, contract_date=None):
+    def __init__(self, duration, salaries, team_options=None, player_options=None, incentives=None, contract_date=None):
         """
         Represents a player's contract details.
         :param duration: Number of years the contract lasts
@@ -12,7 +12,7 @@ class PlayerContract:
         :param contract_date: Date when the contract was last signed or updated (optional)
         """
         self.duration = duration
-        self.salary_per_year = salary_per_year
+        self.salries = salaries
         self.team_options = team_options if team_options else {}
         self.player_options = player_options if player_options else {}
         self.incentives = incentives if incentives else {}
@@ -29,9 +29,9 @@ class PlayerContract:
     def get_duration(self):
         return self.duration
 
-    def get_salary_per_year(self):
-        return self.salary_per_year
-
+    def get_salaries(self):
+        return self.salaries
+    
     def get_team_options(self):
         return self.team_options
 

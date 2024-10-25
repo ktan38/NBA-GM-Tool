@@ -1,5 +1,5 @@
 class Player:
-    def __init__(self, player_id, name, salary, contract_years, position, team=None, tradeable=True, injury_status=None, contract=None):
+    def __init__(self, player_id, name, position, team=None, tradeable=True, injury_status=None, contract=None):
         """
         Represents an NBA player.
         :param player_id: Unique ID for the player.
@@ -13,14 +13,24 @@ class Player:
         :param contract: Instance of PlayerContract representing the player's contract.
         """
         self.player_id = player_id  # Unique identifier for the player
+        
         self.name = name
-        self.salary = salary
-        self.contract_years = contract_years
+
         self.position = position
         self.team = team
         self.tradeable = tradeable
         self.injury_status = injury_status
         self.contract = contract
+
+        #age
+        #height
+        #weight
+        #years in nba
+        #draft
+        #stats
+        #bird rights
+        #trade restriction
+        #qualifying offer
 
     def update(self, **kwargs):
         """

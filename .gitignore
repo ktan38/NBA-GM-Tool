@@ -1,23 +1,2 @@
-.idea/
-*.pyc
-.pypirc
-build/
-dist/
-*egg-info/
-
-# Don't commit files from integration test output
-tests/integration/output/**.csv
-tests/integration/output/**.json
-!tests/integration/output/.gitkeep
-# Ignore generated code coverage files
-.coverage
-
-dependencies/*
-
-# virtualenv's
-venv/
-.venv/
-
-# caches
-.pytest_cache/
-**/*/__pycache__/
+# Created by venv; see https://docs.python.org/3/library/venv.html
+*
