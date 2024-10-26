@@ -1,17 +1,32 @@
-import requests
+from app import app, db, Player  # Import your app, db, and Player model from app.py
 
-# Add a player
-data = {
-    "player_id": "1",
-    "name": "LeBron James",
-    "position": "SF",
-    "team": "Lakers",
-    "tradeable": True,
-    "injury_status": "Healthy"
-}
-response = requests.post("http://127.0.0.1:5000/player", json=data)
-print(response.json())
+# Set up an application context to interact with the database
+with app.app_context():
+    # Check if the player already exists
+    existing_player = Player.query.filter_by(player_id="dummy_001").first()
+    if not existing_player:
+        dummy_player = Player(
+            player_id="dummy_001",
+            name="John Doe",
+            position="PG",
+            team="Example Team",
+            tradeable=True,
+            injury_status="Healthy"
+        )
+        db.session.add(dummy_player)
+        db.session.commit()
+        print("Dummy player added successfully.")
+    else:
+        print("Player already exists.")
 
-# Get all players
-response = requests.get("http://127.0.0.1:5000/players")
-print(response.json())
+    # Fetch and display all players
+    players = Player.query.all()
+    for player in players:
+        print({
+            "player_id": player.player_id,
+            "name": player.name,
+            "position": player.position,
+            "team": player.team,
+            "tradeable": player.tradeable,
+            "injury_status": player.injury_status
+        })
